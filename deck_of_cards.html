@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>BlackJack</title>
+        <style media="screen">
+            *{
+                margin: 0px;
+                padding: 0px;
+            }
+            ul {
+                list-style: initial;
+                margin: initial;
+                padding: 0 0 0 40px;
+            }
+            li{
+                display: list-item;
+            }
+            .ct{
+                width: 900px;
+                height: auto;
+                padding: 1.25rem;
+                margin: auto auto;
+                background-color: rgba(89, 67, 55, 0.5);
+                outline: 1px solid black;
+            }
+                .title{
+                    width: 720px;
+                    height: auto;
+                    padding: 1.25rem;
+                    margin: auto auto;
+                    background-color: rgba(41, 54, 46, 0.5);
+                    outline: 1px solid rgba(41, 54, 46, 0.5));
+                    color: Black;
+                }
+                .body{
+                    width: 720px;
+                    height: auto;
+                    padding: 1.25rem;
+                    margin: auto auto;
+                    background-color: rgba(41, 54, 46, 0.5);
+                }
+                .footer{
+                    width: 720px;
+                    height: auto;
+                    padding: 0.25rem;
+                    margin: auto auto;
+                }
+
+        </style>
+    </head>
+    <body>
+        <div class="ct">
+            <div class="title">
+                <h1>JavaScript BlackJack</h1>
+            </div>
+            <div class="body">
+                <h4>A simple game of blackjack with you vs. dealer.</h4>
+                <ul>
+                    <li>the goal is to get 21 points when you add your cards up.</li>
+                    <li>aces = 1, faces = 10</li>
+                    <li>'hit' to get another card from the dealer.</li>
+                    <li>'fold' to keep your hand for the round.</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <p>
+                    blackjack v1.0
+                </p>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+    //contructor
+    function Card(type, value, name, unicode){
+        this.card = [];
+        this.card[0] = type;
+        this.card[1] = value;
+        this.card[2] = name;
+        this.card[3] = unicode;
+    }
+    function Deck(){
+        var self = this;
+
+        this.deck = [];
+
+        var temp = function(){
+            var deck = [];
+            //hearts
+            deck[0] = new Card('heart', 1, 'ace', 'U+1F0A1');
+            for(var i = 1; i < 9; i++){
+                x = i+1;
+                deck[i] = new Card('heart', x, (x).toString(), 'U+1F0A'+x);
+            }
+            deck[9] = new Card('heart', 10, '10', 'U+1F0AA');
+            deck[10] = new Card('heart', i, 'jack', 'U+1F0AB');
+            deck[11] = new Card('heart', i, 'queen', 'U+1F0AD');
+            deck[12] = new Card('heart', i, 'king', 'U+1F0AE');
+            //spades
+            deck[0] = new Card('spades', 1, 'ace', 'U+1F0A1');
+            for(var i = 1; i < 9; i++){
+                x = i+1;
+                deck[i] = new Card('spades', x, (x).toString(), 'U+1F0A'+x);
+            }
+            deck[9] = new Card('spades', 10, '10', 'U+1F0AA');
+            deck[10] = new Card('spades', i, 'jack', 'U+1F0AB');
+            deck[11] = new Card('spades', i, 'queen', 'U+1F0AD');
+            deck[12] = new Card('spades', i, 'king', 'U+1F0AE');
+            //diamonds
+            deck[0] = new Card('diamonds', 1, 'ace', 'U+1F0A1');
+            for(var i = 1; i < 9; i++){
+                x = i+1;
+                deck[i] = new Card('diamonds', x, (x).toString(), 'U+1F0A'+x);
+            }
+            deck[9] = new Card('diamonds', 10, '10', 'U+1F0AA');
+            deck[10] = new Card('diamonds', i, 'jack', 'U+1F0AB');
+            deck[11] = new Card('diamonds', i, 'queen', 'U+1F0AD');
+            deck[12] = new Card('diamonds', i, 'king', 'U+1F0AE');
+            //clubs
+            deck[0] = new Card('clubs', 1, 'ace', 'U+1F0A1');
+            for(var i = 1; i < 9; i++){
+                x = i+1;
+                deck[i] = new Card('clubs', x, (x).toString(), 'U+1F0A'+x);
+            }
+            deck[9] = new Card('clubs', 10, '10', 'U+1F0AA');
+            deck[10] = new Card('clubs', i, 'jack', 'U+1F0AB');
+            deck[11] = new Card('clubs', i, 'queen', 'U+1F0AD');
+            deck[12] = new Card('clubs', i, 'king', 'U+1F0AE');
+            self.deck = deck;
+        };
+
+        temp();
+
+        // this.deck = temp;
+        this.startIndex = 0;
+
+        return this;
+    }
+    function Player(name){
+        this._name = name;
+        this.hand = [];
+        this.counter = 0;
+    }
+    function Game(play){
+        this.player = new Player(play);
+        this.dealer = new Player('Dealer');
+        this.deck = new Deck();
+    }
+    //instance methods
+    Deck.prototype.shuffle = function() {
+        var temp;
+        var num = 10;
+        var maxIndex = this.deck.length;
+        var minIndex = this.startIndex;
+        // console.log(" "+0+" "+maxIndex+" "+minIndex+" "+this.deck[0]._value+" "+this.deck[0]._name+" "+this.deck[0]._type);
+        for(var i = minIndex; i <= maxIndex; i++){
+            num = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+
+            tempVal = this.deck[i];
+            tempName = this.deck[i];
+            tempType = this.deck[i];
+
+            this.deck[i] = this.deck[num];
+            this.deck[i] = this.deck[num];
+            this.deck[i] = this.deck[num];
+
+            this.deck[num] = tempVal;
+            this.deck[num] = tempName;
+            this.deck[num] = tempType;
+        }
+    };
+    Deck.prototype.reset = function() {
+        var reset = new Deck;
+        this.deck = reset.deck;
+    };
+    Deck.prototype.deal = function() {
+        this.startIndex += 1;
+        var temp;
+        var maxIndex = this.deck.length;
+        var minIndex = this.startIndex;
+        num = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+        if(this.startIndex < 53){
+            temp = this.deck[this.startIndex];
+            console.log("startindex is: "+this.startIndex);
+            return temp;
+        }
+        return undefined;
+    };
+    Player.prototype.hit = function(deck) {
+        this.hand[this.counter] = deck.deal();
+        this.counter += 1;
+    };
+    Player.prototype.discard = function() {
+        //discards a single card which is not returned to the deck
+    };
+    // instances/objects
+    console.log("***");
+    console.log("running");
+    console.log("***");
+
+    console.log("***");
+
+    console.log("***");
+    console.log("ended");
+    console.log("***");
+
+    </script>
+</html>
